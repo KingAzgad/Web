@@ -97,7 +97,6 @@ namespace Web.Controllers
             // Lấy tất cả sản phẩm
             var allProducts = await _productRepository.GetAllAsync();
 
-            // Lọc sản phẩm theo category id
             var productsInCategory = allProducts.Where(p => p.CategoryId == id).ToList();
 
             ViewBag.Category = category;

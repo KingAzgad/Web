@@ -1,113 +1,109 @@
-﻿@model Web.Models.Product
+﻿@model Web.Controllers.CheckoutViewModel
 @{
     ViewData["Title"] = "Thanh toán";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-<div class="container py-4">
-    <h2 class="mb-4 text-center">Thanh toán</h2>
-
-    @if (TempData["Message"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["Message"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+<style>
+    /* Global Styles */
+    .checkout-container {
+        background-color: #f8f9fa;
+        padding: 2rem 0;
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card shadow-sm">
-                <div class="row g-0">
-                    <div class="col-md-5 p-3">
-                        <div class="product-image-container h-100 d-flex align-items-center justify-content-center">
-                            <img src="@(Model.ImageUrl ?? "/images/default-product.jpg")"
-                                 class="img-fluid rounded"
-                                 alt="@Model.Name"
-                                 style="max-height: 300px; object-fit: cover;">
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="card-body h-100 d-flex flex-column">
-                            <div class="flex-grow-1">
-                                <h4 class="card-title mb-3">@Model.Name</h4>
-                                <div class="product-details">
-                                    <p class="mb-2">
-                                        <strong>Danh mục:</strong>
-                                        @(Model.Category?.Name ?? "Không có danh mục")
-                                    </p>
-                                    <p class="mb-2">
-                                        <strong>Giá:</strong>
-                                        <span class="text-primary fw-bold">@Model.Price.ToString("N0") VNĐ</span>
-                                    </p>
-                                    <p class="text-muted">
-                                        <strong>Mô tả:</strong>
-                                        @Model.Description
-                                    </p>
-                                </div>
-                            </div>
+    .checkout-card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        width: 100%;
+        max-width: 500px;
+        padding: 2rem;
+        text-align: center;
+    }
 
-                            <div class="order-summary mt-3">
-                                <h5 class="mb-3">Tóm tắt đơn hàng</h5>
-                                <div class="border-top pt-3">
-                                    <p class="d-flex justify-content-between mb-2">
-                                        <span>Sản phẩm:</span>
-                                        <span>@Model.Name</span>
-                                    </p>
-                                    <p class="d-flex justify-content-between mb-2">
-                                        <span>Số lượng:</span>
-                                        <span>1</span>
-                                    </p>
-                                    <p class="d-flex justify-content-between mb-3 fw-bold">
-                                        <span>Tổng giá:</span>
-                                        <span class="text-primary">@Model.Price.ToString("N0") VNĐ</span>
-                                    </p>
-                                </div>
+    .checkout-header {
+        margin-bottom: 2rem;
+    }
 
-                                <form asp-action="ProcessPayment" method="post" class="mt-3">
-                                    <input type="hidden" name="productId" value="@Model.Id" />
-                                    <div class="d-grid gap-2">
-                                        <button type="submit" class="btn btn-primary btn-lg">
-                                            Thanh toán ngay
-                                        </button>
-                                        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary btn-lg">
-                                            Quay lại
-                                        </a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        .checkout-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+    .total-amount {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #e74c3c;
+        margin-bottom: 1.5rem;
+    }
+
+    .qr-code-placeholder {
+        width: 200px;
+        height: 200px;
+        background-color: #e9ecef;
+        margin: 0 auto 1.5rem auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        border: 2px dashed #ccc;
+    }
+
+        .qr-code-placeholder p {
+            color: #666;
+            font-style: italic;
+        }
+
+    .btn-confirm {
+        background-color: #28a745;
+        border-color: #28a745;
+        transition: all 0.3s ease;
+        padding: 10px 20px;
+        border-radius: 20px;
+        color: white;
+        font-size: 1rem;
+        text-decoration: none;
+    }
+
+        .btn-confirm:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+</style>
+
+<div class="container-fluid checkout-container">
+    <div class="checkout-card">
+        <div class="checkout-header">
+            <h3>
+                <i class="fas fa-credit-card me-2"></i>Thanh toán đơn hàng
+            </h3>
+        </div>
+
+        <div class="total-amount">
+            Tổng tiền: @Model.TotalAmount.ToString("N0") VNĐ
+        </div>
+
+        <div class="qr-code-placeholder">
+            <p>QR Code Placeholder</p>
+        </div>
+
+        <p>Vui lòng quét mã QR để thanh toán</p>
+
+        <div class="mt-3">
+            <form asp-action="ConfirmPayment" method="post">
+                <button type="submit" class="btn btn-confirm">
+                    <i class="fas fa-check me-2"></i>Xác nhận thanh toán
+                </button>
+            </form>
         </div>
     </div>
 </div>
 
-<style>
-    .product-image-container {
-        background-color: #f8f9fa;
-        border-radius: 0.375rem;
-    }
-
-    .card {
-        border: none;
-        border-radius: 0.5rem;
-        overflow: hidden;
-    }
-
-    .product-details strong {
-        color: #495057;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        transition: all 0.3s ease;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">

@@ -2,6 +2,7 @@
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+
 <style>
     /* Global Styles */
     .product-catalog {
@@ -15,16 +16,16 @@
         height: 300px;
         margin-bottom: 2rem;
         border-radius: 12px;
-        overflow: hidden; /* Ẩn phần ảnh tràn ra ngoài */
-        position: relative; /* Đảm bảo hình ảnh được định vị trong khung */
+        overflow: hidden;
+        position: relative;
     }
 
         .advertisement-banner img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Cắt ảnh để lấp đầy khung, không làm méo */
-            object-position: center; /* Căn giữa ảnh */
-            display: block; /* Loại bỏ khoảng trống bên dưới ảnh */
+            object-fit: cover;
+            object-position: center;
+            display: block;
         }
 
     /* Category Sidebar Styles */
@@ -142,13 +143,15 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 1rem;
+        flex-wrap: wrap;
     }
 
     .btn-purchase {
         background-color: #007bff;
         color: white;
         border-radius: 20px;
-        padding: 8px 16px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
         text-decoration: none;
         transition: background-color 0.3s ease;
     }
@@ -157,7 +160,39 @@
             background-color: #0056b3;
         }
 
-    /* Animations */
+    .product-price {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #e74c3c;
+    }
+
+    .product-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .quantity-input {
+        width: 50px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .btn-add-to-cart {
+        background-color: #28a745;
+        color: white;
+        border-radius: 20px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-add-to-cart:hover {
+            background-color: #218838;
+        }
+
     .category-card {
         animation: fadeIn 0.5s ease;
     }
@@ -166,7 +201,6 @@
         animation: fadeIn 0.5s ease;
     }
 
-    /* Footer Styles */
     .site-footer {
         background-color: #2c3e50;
         color: #ecf0f1;
@@ -219,27 +253,44 @@
         padding-top: 1.5rem;
         margin-top: 2rem;
         text-align: center;
-        width: 100%; /* Sửa lỗi chính tả: witdh -> width */
+        width: 100%;
     }
 
-    /* Responsive Adjustments */
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" / >
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" / >
+    /* Notification Styles */
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #28a745;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        min-width: 200px;
+        text-align: center;
+        display: none;
+    }
+
+        .notification.error {
+            background-color: #dc3545;
+        }
 </style>
+
+<!-- Thêm div cho thông báo -->
+<div id="notification" class="notification"></div>
+
 <div class="container-fluid product-catalog">
-    <!-- Advertisement Banner -->
     <div class="advertisement-banner">
         <img src="~/images/dibien.png" alt="Description">
     </div>
 
     <div class="row g-4">
-        <!-- Left Column: Category Navigation -->
         <div class="col-md-3 category-sidebar">
             <div class="category-header">
                 <h3 class="mb-4">Danh mục</h3>
             </div>
 
-            <!-- All Products Category -->
             <div class="category-card @(ViewBag.SelectedCategoryId == null ? "active" : "")">
                 <a href="@Url.Action("Index", "Home")" class="category-link">
                     <div class="category-icon">
@@ -254,7 +305,6 @@
                 </a>
             </div>
 
-            <!-- Other Categories -->
             @foreach (var category in ViewBag.Categories)
             {
                 <div class="category-card @(ViewBag.SelectedCategoryId == category.Id ? "active" : "")">
@@ -271,11 +321,12 @@
             }
         </div>
 
-        <!-- Right Column: Product Display -->
         <div class="col-md-9 product-display">
             <div class="product-header">
                 <h3 class="mb-4">Sản phẩm</h3>
-                <!-- Hiển thị thông báo tìm kiếm nếu có -->
+                <a href="@Url.Action("Index", "Cart")" class="btn btn-primary mb-4">
+                    <i class="fas fa-shopping-cart"></i> Xem giỏ hàng
+                </a>
                 @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
                 {
                     <p class="text-muted mb-4">Kết quả tìm kiếm cho: <strong>@ViewBag.SearchTerm</strong></p>
@@ -300,7 +351,24 @@
                                     <p class="product-category">@(product.Category?.Name ?? "Không có danh mục")</p>
                                     <div class="product-footer">
                                         <span class="product-price">@product.Price.ToString("N0") VNĐ</span>
-                                        <a href="@Url.Action("Index", "Checkout", new { productId = product.Id })" class="btn btn-purchase">Mua</a>
+                                        <div class="product-actions">
+                                            <!-- Nút "Mua" -->
+                                            <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                                                <input type="hidden" name="productId" value="@product.Id" />
+                                                <input type="hidden" name="quantity" value="1" />
+                                                <button type="submit" class="btn btn-purchase" formaction="@Url.Action("AddToCart", "Cart")" formmethod="post" onclick="this.form.action='@Url.Action("Index", "Checkout")';">
+                                                    Mua
+                                                </button>
+                                            </form>
+                                            <!-- Nút "Thêm" -->
+                                            <form class="add-to-cart-form" style="display:inline;">
+                                                <input type="hidden" name="productId" value="@product.Id" />
+                                                <input type="number" name="quantity" value="1" min="1" class="quantity-input" />
+                                                <button type="button" class="btn btn-add-to-cart" onclick="addToCart(@product.Id, this)">
+                                                    <i class="fas fa-cart-plus"></i> Thêm
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -324,3 +392,47 @@
         </div>
     </div>
 </div>
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+<!-- Thêm jQuery và script xử lý AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function addToCart(productId, button) {
+        var form = $(button).closest('form');
+        var quantity = form.find('input[name="quantity"]').val();
+
+        $.ajax({
+            url: '@Url.Action("AddToCart", "Cart")',
+            type: 'POST',
+            data: {
+                productId: productId,
+                quantity: quantity
+            },
+            success: function (response) {
+                if (response.success) {
+                    showNotification(response.message, true);
+                } else {
+                    showNotification(response.message, false);
+                }
+            },
+            error: function () {
+                showNotification('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.', false);
+            }
+        });
+    }
+
+    function showNotification(message, isSuccess) {
+        var notification = $('#notification');
+        notification.text(message);
+        notification.removeClass('error');
+        if (!isSuccess) {
+            notification.addClass('error');
+        }
+        notification.fadeIn();
+        setTimeout(function () {
+            notification.fadeOut();
+        }, 3000);
+    }
+</script>

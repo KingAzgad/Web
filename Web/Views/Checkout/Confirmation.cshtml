@@ -1,0 +1,104 @@
+﻿@model Web.Models.Order
+@{
+    ViewData["Title"] = "Xác nhận đơn hàng";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+    /* Global Styles */
+    .confirmation-container {
+        background-color: #f8f9fa;
+        padding: 2rem 0;
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .confirmation-card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        width: 100%;
+        max-width: 600px;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .confirmation-header {
+        margin-bottom: 2rem;
+    }
+
+        .confirmation-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+    .order-details {
+        text-align: left;
+        margin-bottom: 2rem;
+    }
+
+        .order-details p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .order-details .total-amount {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e74c3c;
+        }
+
+        .order-details .status {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #28a745;
+        }
+
+    .btn-home {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: all 0.3s ease;
+        padding: 10px 20px;
+        border-radius: 20px;
+        color: white;
+        font-size: 1rem;
+        text-decoration: none;
+    }
+
+        .btn-home:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+</style>
+
+<div class="container-fluid confirmation-container">
+    <div class="confirmation-card">
+        <div class="confirmation-header">
+            <h3>
+                <i class="fas fa-check-circle me-2"></i>Đơn hàng đã được đặt thành công!
+            </h3>
+        </div>
+
+        <div class="order-details">
+            <p><strong>Mã đơn hàng:</strong> @Model.Id</p>
+            <p><strong>Ngày đặt hàng:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+            <p><strong>Số lượng sản phẩm:</strong> @Model.Items.Count</p>
+            <p class="total-amount"><strong>Tổng tiền:</strong> @Model.TotalAmount.ToString("N0") VNĐ</p>
+            <p class="status"><strong>Trạng thái:</strong> @Model.Status</p>
+        </div>
+
+        <div class="mt-3">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-home">
+                <i class="fas fa-home me-2"></i>Quay về trang chủ
+            </a>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">

@@ -21,32 +21,27 @@ namespace Web.Controllers
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
         }
+
         [AllowAnonymous]
         public async Task<IActionResult> Index(int? categoryId, string searchTerm)
         {
             try
             {
-                // L?y danh sách t?t c? danh m?c
                 var categories = await _categoryRepository.GetAllAsync();
-
-                // L?y danh sách s?n ph?m
                 var products = await _productRepository.GetAllAsync();
 
-                // N?u có categoryId, l?c s?n ph?m theo danh m?c
                 if (categoryId.HasValue)
                 {
                     products = products.Where(p => p.CategoryId == categoryId.Value).ToList();
-                    ViewBag.SelectedCategoryId = categoryId; // L?u categoryId ?? highlight danh m?c ???c ch?n
+                    ViewBag.SelectedCategoryId = categoryId;
                 }
 
-                // N?u có searchTerm, l?c s?n ph?m theo t? khóa tìm ki?m
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
                     products = products.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
-                    ViewBag.SearchTerm = searchTerm; // Truy?n searchTerm ?? hi?n th? trong view
+                    ViewBag.SearchTerm = searchTerm;
                 }
 
-                // Truy?n d? li?u vào ViewBag
                 ViewBag.Categories = categories;
                 ViewBag.Products = products;
 

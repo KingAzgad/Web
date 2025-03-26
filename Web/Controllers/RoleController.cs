@@ -34,7 +34,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Kiểm tra xem role đã tồn tại chưa
+
                 var roleExists = await _roleManager.RoleExistsAsync(role.Name);
                 if (!roleExists)
                 {
@@ -99,10 +99,7 @@ namespace Web.Controllers
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
-            // Xóa tất cả roles hiện tại
             await _userManager.RemoveFromRolesAsync(user, userRoles);
-
-            // Thêm vai trò mới được chọn
             var selectedRoles = model.Where(x => x.IsSelected).Select(r => r.RoleName).ToList();
             await _userManager.AddToRolesAsync(user, selectedRoles);
 

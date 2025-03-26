@@ -40,16 +40,16 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Xử lý hình ảnh chính
+
                 if (mainImageFile != null && mainImageFile.Length > 0)
                 {
                     product.ImageUrl = await SaveImage(mainImageFile);
                 }
 
-                // Thêm sản phẩm để lấy Id
+
                 await _productRepository.AddAsync(product);
 
-                // Xử lý các hình ảnh phụ
+
                 if (imageFiles != null && imageFiles.Count > 0)
                 {
                     product.ImageUrls = new List<ProductImage>();
@@ -66,7 +66,7 @@ namespace Web.Controllers
                             product.ImageUrls.Add(productImage);
                         }
                     }
-                    // Cập nhật sản phẩm với các hình ảnh mới
+
                     await _productRepository.UpdateAsync(product);
                 }
 
@@ -112,23 +112,20 @@ namespace Web.Controllers
 
             if (ModelState.IsValid)
             {
-                // Lấy sản phẩm từ cơ sở dữ liệu để có thông tin đầy đủ
+
                 var existingProduct = await _productRepository.GetByIdAsync(id);
                 if (existingProduct == null)
                 {
                     return NotFound();
                 }
 
-                // Cập nhật thông tin cơ bản
                 existingProduct.Name = product.Name;
                 existingProduct.Description = product.Description;
                 existingProduct.Price = product.Price;
                 existingProduct.CategoryId = product.CategoryId;
 
-                // Xử lý hình ảnh chính
                 if (mainImageFile != null && mainImageFile.Length > 0)
                 {
-                    // Xóa file cũ nếu có
                     if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
                     {
                         DeleteImage(existingProduct.ImageUrl);
@@ -136,7 +133,6 @@ namespace Web.Controllers
                     existingProduct.ImageUrl = await SaveImage(mainImageFile);
                 }
 
-                // Xử lý các hình ảnh phụ
                 if (additionalImageFiles != null && additionalImageFiles.Count > 0)
                 {
                     if (existingProduct.ImageUrls == null)
@@ -159,7 +155,6 @@ namespace Web.Controllers
                     }
                 }
 
-                // Cập nhật sản phẩm
                 await _productRepository.UpdateAsync(existingProduct);
                 return RedirectToAction(nameof(Index));
             }
@@ -187,13 +182,11 @@ namespace Web.Controllers
             var product = await _productRepository.GetByIdAsync(id);
             if (product != null)
             {
-                // Xóa hình ảnh chính
                 if (!string.IsNullOrEmpty(product.ImageUrl))
                 {
                     DeleteImage(product.ImageUrl);
                 }
 
-                // Xóa các hình ảnh phụ
                 if (product.ImageUrls != null && product.ImageUrls.Count > 0)
                 {
                     foreach (var image in product.ImageUrls)
@@ -233,28 +226,22 @@ namespace Web.Controllers
             if (image == null || image.Length == 0)
                 return null;
 
-            // Tạo tên file độc nhất để tránh trùng lặp
             string uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(image.FileName)}";
 
-            // Đường dẫn đầy đủ đến thư mục lưu trữ
             string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "images");
 
-            // Tạo thư mục nếu chưa tồn tại
             if (!Directory.Exists(uploadDir))
             {
                 Directory.CreateDirectory(uploadDir);
             }
 
-            // Đường dẫn đầy đủ đến file
             string filePath = Path.Combine(uploadDir, uniqueFileName);
 
-            // Lưu file
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await image.CopyToAsync(fileStream);
             }
 
-            // Trả về đường dẫn tương đối để lưu vào cơ sở dữ liệu
             return $"/images/{uniqueFileName}";
         }
 
@@ -265,11 +252,9 @@ namespace Web.Controllers
 
             try
             {
-                // Chuyển đổi đường dẫn tương đối thành đường dẫn tuyệt đối
                 string fileName = Path.GetFileName(imageUrl);
                 string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
 
-                // Kiểm tra xem file có tồn tại không
                 if (System.IO.File.Exists(filePath))
                 {
                     System.IO.File.Delete(filePath);
@@ -277,7 +262,6 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                // Xử lý ngoại lệ nếu cần
                 Console.WriteLine($"Lỗi khi xóa file: {ex.Message}");
             }
         }
