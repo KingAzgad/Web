@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Web.Models;
@@ -20,7 +21,7 @@ namespace Web.Controllers
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Index(int? categoryId, string searchTerm)
         {
             try

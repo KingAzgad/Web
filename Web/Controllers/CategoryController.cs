@@ -85,6 +85,7 @@ namespace Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> View(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
@@ -102,6 +103,7 @@ namespace Web.Controllers
             ViewBag.Category = category;
             return View(productsInCategory);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Show(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);

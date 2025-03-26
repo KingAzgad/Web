@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Web.Models;
 using Web.Reponsitory;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,14 @@ app.UseStatusCodePages(async context =>
 app.MapRazorPages();
 app.Use(async (context, next) =>
 {
+    var endpoint = context.GetEndpoint();
+    if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
+    {
+        // Nếu endpoint có [AllowAnonymous], bỏ qua kiểm tra đăng nhập và tiếp tục
+        await next();
+        return;
+    }
+
     var user = context.User;
     var path = context.Request.Path;
 
