@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <!-- Luôn hiển thị mục Home -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <!-- Hiển thị các mục khác chỉ cho role Admin -->
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Danh mục</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Sản phẩm</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Quản lý quyền</a>
+                            </li>
+                        }
+                    </ul>
+                    <!-- Thanh tìm kiếm -->
+                    <form class="d-flex" method="get" asp-controller="Home" asp-action="Index">
+                        <input class="form-control me-2" type="search" name="searchTerm" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Information -->
+                <div class="col-md-4 mb-4">
+                    <h5>Liên hệ</h5>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Khu Công nghệ cao TP.HCM (SHTP), P. Long Thạnh Mỹ, TP. Thủ Đức, TP.HCM</li>
+                        <li><i class="fas fa-phone-alt me-2"></i> (+84) 0559 562 779</li>
+                        <li><i class="fas fa-envelope me-2"></i> <a href="mailto:support@example.com">phamquanghaohao.work@gmail.com</a></li>
+                    </ul>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-md-4 mb-4">
+                    <h5>Liên kết nhanh</h5>
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                        <li><a href="@Url.Action("Index", "Category")">Danh mục</a></li>
+                        <li><a href="@Url.Action("Index", "Product")">Sản phẩm</a></li>
+                        <li><a href="@Url.Action("Privacy", "Home")">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media -->
+                <div class="col-md-4 mb-4">
+                    <h5>Theo dõi chúng tôi</h5>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>© @DateTime.Now.Year - Web. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

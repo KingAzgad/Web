@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Web.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Quản lý quyền người dùng";
+}
+
+<h1>Quản lý quyền người dùng</h1>
+
+<p>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Họ tên</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.Fullname</td>
+                <td>
+                    <a asp-action="ManageUserRoles" asp-route-userId="@user.Id" class="btn btn-primary">Quản lý quyền</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

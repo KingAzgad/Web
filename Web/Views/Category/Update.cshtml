@@ -1,0 +1,46 @@
+﻿@model Web.Models.Category
+
+@{
+    ViewData["Title"] = "Cập nhật danh mục";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0 rounded-3">
+                <div class="card-header bg-warning text-dark py-3">
+                    <h3 class="mb-0 fw-bold text-center">
+                        <i class="fas fa-edit me-2"></i>Cập nhật danh mục
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Update" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label fw-bold">
+                                <i class="fas fa-tag me-1"></i>Tên danh mục
+                            </label>
+                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Nhập tên danh mục..." />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-1"></i>Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                <i class="fas fa-save me-1"></i>Cập nhật
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

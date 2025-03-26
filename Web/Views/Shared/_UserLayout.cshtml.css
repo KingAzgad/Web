@@ -1,0 +1,136 @@
+﻿/* User Layout Styles */
+:root {
+    --primary-color: #4285f4;
+    --secondary-color: #34a853;
+    --accent-color: #fbbc05;
+    --danger-color: #ea4335;
+    --light-bg: #f8f9fa;
+    --dark-bg: #343a40;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Đảm bảo html và body chiếm toàn bộ chiều cao */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content */
+main {
+    flex: 1 0 auto; /* Đảm bảo main chiếm không gian cần thiết */
+    padding: 30px 0 0; /* Xóa padding-bottom */
+}
+
+/* Footer */
+.site-footer {
+    background-color: #1a2526;
+    color: #ecf0f1;
+    padding: 1.5rem 0;
+    margin-top: 1rem;
+    flex-shrink: 0; /* Đảm bảo footer không bị co lại */
+    margin-bottom: 0; /* Loại bỏ khoảng trắng dưới footer */
+}
+
+    .site-footer a {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+    }
+
+        .site-footer a:hover {
+            color: #3498db;
+        }
+
+    .site-footer h5 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #ecf0f1;
+    }
+
+    .site-footer ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .site-footer ul li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+.social-icons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+    .social-icons a {
+        font-size: 1.2rem;
+        color: #ecf0f1;
+        transition: color 0.3s ease;
+    }
+
+        .social-icons a:hover {
+            color: #3498db;
+        }
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    margin-bottom: 0; /* Loại bỏ khoảng trắng dưới footer-bottom */
+}
+
+    .footer-bottom p {
+        font-size: 0.85rem;
+        margin: 0;
+    }
+
+/* Pagination */
+.pagination {
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.page-item .page-link {
+    color: var(--primary-color);
+    border-color: #dee2e6;
+    padding: 10px 15px;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+    }
+
+    .navbar form {
+        margin: 10px 0;
+    }
+
+    .hero-section {
+        padding: 40px 0;
+    }
+
+        .hero-section h1 {
+            font-size: 2rem;
+        }
+}

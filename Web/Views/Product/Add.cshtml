@@ -1,0 +1,164 @@
+﻿@model Web.Models.Product
+@{
+    ViewData["Title"] = "Thêm sản phẩm mới";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-success text-white py-3">
+            <h3 class="mb-0 fw-bold text-center">
+                <i class="fas fa-plus-circle me-2"></i>Thêm sản phẩm mới
+            </h3>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Add" method="post" enctype="multipart/form-data" class="row g-4">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control" id="productName" placeholder="Tên sản phẩm" />
+                        <label for="productName">
+                            <i class="fas fa-tag me-1"></i>Tên sản phẩm
+                        </label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Price" class="form-control" id="productPrice" type="number" min="0" step="0.01" placeholder="Giá" />
+                        <label for="productPrice">
+                            <i class="fas fa-tag me-1"></i>Giá sản phẩm
+                        </label>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-floating mb-3">
+                        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select" id="productCategory">
+                            <option value="">-- Chọn danh mục --</option>
+                        </select>
+                        <label for="productCategory">
+                            <i class="fas fa-folder me-1"></i>Danh mục
+                        </label>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Description" class="form-control" id="productDescription" style="height: 120px" placeholder="Mô tả"></textarea>
+                        <label for="productDescription">
+                            <i class="fas fa-align-left me-1"></i>Mô tả sản phẩm
+                        </label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card mb-3 bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-image me-1"></i>Hình ảnh chính
+                            </h5>
+                            <div class="mb-3">
+                                <label class="form-label">Hình ảnh chính</label>
+                                <input name="mainImageFile" type="file" class="form-control" />
+                                <div class="form-text">Hỗ trợ định dạng: JPG, PNG, GIF. Kích thước tối đa: 5MB.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card mb-3 bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-images me-1"></i>Hình ảnh phụ
+                            </h5>
+                            <div class="mb-3">
+                                <label class="form-label">Hình ảnh phụ (Có thể chọn nhiều)</label>
+                                <input name="imageFiles" type="file" class="form-control" multiple />
+                                <div class="form-text">Hỗ trợ định dạng: JPG, PNG, GIF. Kích thước tối đa: 5MB.</div>
+                            </div>
+                            <div id="image-preview" class="row mt-3 g-2 d-none">
+                                <!-- JavaScript sẽ hiển thị ảnh preview ở đây -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-arrow-left me-1"></i>Quay lại
+                    </a>
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="fas fa-save me-1"></i>Lưu sản phẩm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Image preview script
+        document.querySelector('input[name="imageFiles"]').addEventListener('change', function (e) {
+            const previewDiv = document.getElementById('image-preview');
+            previewDiv.innerHTML = '';
+            previewDiv.classList.remove('d-none');
+
+            if (this.files) {
+                for (let i = 0; i < this.files.length; i++) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-3';
+
+                        const card = document.createElement('div');
+                        card.className = 'card h-100';
+
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.className = 'card-img-top';
+                        img.style = 'height: 150px; object-fit: cover;';
+
+                        card.appendChild(img);
+                        col.appendChild(card);
+                        previewDiv.appendChild(col);
+                    }
+                    reader.readAsDataURL(this.files[i]);
+                }
+            }
+        });
+
+        // Thêm preview cho hình ảnh chính
+        document.querySelector('input[name="mainImageFile"]').addEventListener('change', function (e) {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const preview = document.createElement('div');
+                    preview.className = 'mt-3';
+                    preview.innerHTML = `
+                                <label>Xem trước hình ảnh chính:</label><br />
+                                <img src="${event.target.result}" class="img-thumbnail" style="max-width: 200px;" />
+                            `;
+
+                    // Xóa preview cũ nếu có
+                    const oldPreview = this.parentElement.querySelector('.mt-3');
+                    if (oldPreview) {
+                        oldPreview.remove();
+                    }
+
+                    this.parentElement.appendChild(preview);
+                }.bind(this);
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    </script>
+}

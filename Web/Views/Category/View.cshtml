@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Web.Models.Product>
+
+@{
+    ViewData["Title"] = "Sản phẩm theo danh mục";
+    var category = ViewBag.Category as Web.Models.Category;
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-0 rounded-3">
+        <div class="card-header bg-info text-white py-3 d-flex justify-content-between align-items-center">
+            <h3 class="mb-0 fw-bold">
+                <i class="fas fa-box-open me-2"></i>Sản phẩm thuộc danh mục: @category.Name
+            </h3>
+            <div>
+                <a asp-controller="Product" asp-action="Add" class="btn btn-light me-2">
+                    <i class="fas fa-plus-circle me-1"></i>Thêm sản phẩm mới
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Quay lại danh mục
+                </a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info d-flex align-items-center">
+                    <i class="fas fa-info-circle me-3 fs-3"></i>
+                    <div>
+                        Không có sản phẩm nào thuộc danh mục này.
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col">
+                            <div class="card h-100 shadow-sm hover-shadow">
+                                <div class="position-relative">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-light text-center py-5">
+                                            <i class="fas fa-image text-muted" style="font-size: 60px;"></i>
+                                            <p class="text-muted mt-2">Không có hình ảnh</p>
+                                        </div>
+                                    }
+                                    <div class="position-absolute top-0 end-0 m-2">
+                                        <span class="badge bg-primary rounded-pill fs-6">@item.Price.ToString("N0") VNĐ</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold text-truncate">@item.Name</h5>
+                                    <p class="card-text text-muted">@(item.Description?.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <div class="d-flex justify-content-between">
+                                        <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-info">
+                                            <i class="fas fa-info-circle me-1"></i>Chi tiết
+                                        </a>
+                                        <div class="btn-group">
+                                            <a asp-controller="Product" asp-action="Update" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit me-1"></i>Sửa
+                                            </a>
+                                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash-alt me-1"></i>Xóa
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="card-footer bg-light py-3 text-end">
+            <small class="text-muted">Tổng số sản phẩm: @Model.Count()</small>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        transition: all 0.3s ease;
+    }
+</style>

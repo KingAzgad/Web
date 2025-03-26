@@ -1,0 +1,563 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes sun-pulse {
+    0% {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 60px rgba(255, 215, 0, 0.8);
+    }
+}
+
+@keyframes cloud-move {
+    0% {
+        transform: translateX(-150px);
+    }
+
+    100% {
+        transform: translateX(1500px);
+    }
+}
+
+@keyframes wave-animation {
+    0% {
+        background-position-x: 0;
+    }
+
+    100% {
+        background-position-x: 1200px;
+    }
+}
+
+@keyframes seagull-fly {
+    0% {
+        transform: translateX(-50px) translateY(0);
+    }
+
+    25% {
+        transform: translateX(300px) translateY(-30px);
+    }
+
+    50% {
+        transform: translateX(600px) translateY(0);
+    }
+
+    75% {
+        transform: translateX(900px) translateY(-20px);
+    }
+
+    100% {
+        transform: translateX(1500px) translateY(-10px);
+    }
+}
+
+@keyframes sailboat-rock {
+    0% {
+        transform: rotate(-2deg);
+    }
+
+    50% {
+        transform: rotate(2deg);
+    }
+
+    100% {
+        transform: rotate(-2deg);
+    }
+}
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px rgba(120, 198, 255, 0.5), 0 0 10px rgba(120, 198, 255, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 0 15px rgba(120, 198, 255, 0.8), 0 0 20px rgba(120, 198, 255, 0.5);
+    }
+
+    100% {
+        text-shadow: 0 0 5px rgba(120, 198, 255, 0.5), 0 0 10px rgba(120, 198, 255, 0.3);
+    }
+}
+
+@keyframes wave-animation {
+    0% {
+        background-position-x: 0;
+    }
+
+    100% {
+        background-position-x: 1200px;
+    }
+}
+
+@keyframes moon-glow {
+    0% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.7);
+    }
+
+    100% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes star-twinkle {
+    0% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes shooting-star {
+    0% {
+        transform: translateX(-100px) translateY(0) rotate(45deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    20% {
+        transform: translateX(100px) translateY(200px) rotate(45deg);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px rgba(120, 198, 255, 0.5), 0 0 10px rgba(120, 198, 255, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 15px rgba(120, 198, 255, 0.8), 0 0 20px rgba(120, 198, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0 0 5px rgba(120, 198, 255, 0.5), 0 0 10px rgba(120, 198, 255, 0.3);
+    }
+}
+@keyframes wave-animation {
+    0% {
+        background-position-x: 0;
+    }
+    100% {
+        background-position-x: 1200px;
+    }
+}
+@keyframes moon-glow {
+    0% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+}
+@keyframes star-twinkle {
+    0% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+}
+@keyframes shooting-star {
+    0% {
+        transform: translateX(-100px) translateY(0) rotate(45deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        transform: translateX(100px) translateY(200px) rotate(45deg);
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes reflection-pulse {
+    0% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0.1;
+    }
+}
+@keyframes firefly {
+    0% {
+        opacity: 0;
+        transform: translateX(0) translateY(0);
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        transform: translateX(20px) translateY(-10px);
+    }
+    30% {
+        opacity: 0.8;
+    }
+    40% {
+        transform: translateX(-10px) translateY(-20px);
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        transform: translateX(15px) translateY(15px);
+    }
+    70% {
+        opacity: 0.6;
+    }
+    80% {
+        transform: translateX(-20px) translateY(10px);
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(0) translateY(0);
+    }
+}
+@keyframes lighthouse-beam {
+    0%, 100% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+@keyframes lighthouse-sweep {
+    0% {
+        transform: rotate(-45deg);
+        opacity: 0;
+    }
+    25% {
+        transform: rotate(-45deg);
+        opacity: 0.7;
+    }
+    50% {
+        transform: rotate(45deg);
+        opacity: 0.7;
+    }
+    75% {
+        transform: rotate(45deg);
+        opacity: 0;
+    }
+    100% {
+        transform: rotate(-45deg);
+        opacity: 0;
+    }
+}
+@keyframes boat-rock {
+    0% {
+        transform: rotate(0deg) translateY(0);
+    }
+    25% {
+        transform: rotate(3deg) translateY(-2px);
+    }
+    50% {
+        transform: rotate(0deg) translateY(0);
+    }
+    75% {
+        transform: rotate(-3deg) translateY(2px);
+    }
+    100% {
+        transform: rotate(0deg) translateY(0);
+    }
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px rgba(120, 198, 255, 0.5), 0 0 10px rgba(120, 198, 255, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 0 15px rgba(120, 198, 255, 0.8), 0 0 20px rgba(120, 198, 255, 0.5);
+    }
+
+    100% {
+        text-shadow: 0 0 5px rgba(120, 198, 255, 0.5), 0 0 10px rgba(120, 198, 255, 0.3);
+    }
+}
+
+@keyframes wave-animation {
+    0% {
+        background-position-x: 0;
+    }
+
+    100% {
+        background-position-x: 1200px;
+    }
+}
+
+@keyframes moon-glow {
+    0% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.7);
+    }
+
+    100% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes star-twinkle {
+    0% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes shooting-star {
+    0% {
+        transform: translateX(-100px) translateY(0) rotate(45deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    20% {
+        transform: translateX(100px) translateY(200px) rotate(45deg);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes reflection-pulse {
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+@keyframes firefly {
+    0% {
+        opacity: 0;
+        transform: translateX(0) translateY(0);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    20% {
+        transform: translateX(20px) translateY(-10px);
+    }
+
+    30% {
+        opacity: 0.8;
+    }
+
+    40% {
+        transform: translateX(-10px) translateY(-20px);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    60% {
+        transform: translateX(15px) translateY(15px);
+    }
+
+    70% {
+        opacity: 0.6;
+    }
+
+    80% {
+        transform: translateX(-20px) translateY(10px);
+    }
+
+    90% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(0) translateY(0);
+    }
+}
+/* Keyframes for product and category cards */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+@media (max-width: 768px) {
+    .category-sidebar,
+    .product-display {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

@@ -1,0 +1,59 @@
+﻿@model Web.Models.Product
+@{
+    ViewData["Title"] = "Xóa Sản Phẩm";
+}
+<div class="container mt-5">
+    <h2 class="text-center text-danger mb-4">Xóa Sản Phẩm</h2>
+    <!-- Warning Message -->
+    <div class="alert alert-warning text-center shadow-sm rounded-3">
+        <h5 class="fw-bold">Bạn có chắc chắn muốn xóa sản phẩm này?</h5>
+        <p class="text-muted mb-0">Hành động này không thể hoàn tác!</p>
+    </div>
+    <!-- Product Details Card -->
+    <div class="card shadow-lg rounded-3 border-0">
+        <div class="card-body">
+            <div class="row">
+                <!-- Product Image -->
+                <div class="col-md-4 text-center">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" class="img-fluid rounded-3 shadow-lg" style="max-width: 200px;" alt="Product Image" />
+                    }
+                    else if (Model.ImageUrls != null && Model.ImageUrls.Count > 0)
+                    {
+                        <img src="@Model.ImageUrls[0].Url" class="img-fluid rounded-3 shadow-lg" style="max-width: 200px;" alt="Product Image" />
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.png" class="img-fluid rounded-3 shadow-lg" style="max-width: 200px;" alt="No Image" />
+                    }
+                </div>
+                <!-- Product Information -->
+                <div class="col-md-8">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold">Tên Sản Phẩm:</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+                        <dt class="col-sm-4 fw-bold">Mô Tả:</dt>
+                        <dd class="col-sm-8">@Model.Description</dd>
+                        <dt class="col-sm-4 fw-bold">Giá:</dt>
+                        <dd class="col-sm-8 text-danger fw-bold">@Model.Price.ToString("C")</dd>
+                        <dt class="col-sm-4 fw-bold">Danh Mục:</dt>
+                        <dd class="col-sm-8">@(Model.Category != null ? Model.Category.Name : "Không có")</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-center gap-4 mt-5">
+        <form asp-action="Delete" method="post" class="w-50">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger w-100 py-3 rounded-3 shadow">
+                <i class="fas fa-trash-alt"></i> Xóa Sản Phẩm
+            </button>
+        </form>
+        <a asp-action="Index" class="btn btn-outline-secondary w-100 py-3 rounded-3 shadow">
+            <i class="fas fa-times"></i> Hủy
+        </a>
+    </div>
+</div>

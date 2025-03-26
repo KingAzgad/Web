@@ -1,0 +1,264 @@
+﻿@model IEnumerable<Web.Models.Category>
+@{
+    ViewData["Title"] = "Danh sách danh mục";
+}
+
+<style>
+    body {
+        background-color: #f0e6d2;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .beach-container {
+        background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .beach-header {
+        background: linear-gradient(135deg, #00BFFF, #1E90FF);
+        color: white;
+        padding: 1.5rem;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .beach-header h3 {
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+    .beach-body {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .beach-table {
+        background-color: transparent;
+    }
+
+        .beach-table thead {
+            background-color: rgba(30, 144, 255, 0.1);
+        }
+
+            .beach-table thead th {
+                color: #0066cc;
+                font-weight: 600;
+                border-bottom: 2px solid #7ec0ee;
+                padding: 1rem;
+            }
+
+        .beach-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #d1e6f9;
+        }
+
+            .beach-table tbody tr:hover {
+                background-color: rgba(135, 206, 235, 0.1);
+                transform: translateY(-2px);
+            }
+
+        .beach-table td {
+            padding: 0.75rem 1rem;
+        }
+
+    .beach-scene {
+        height: 200px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #87CEEB 0%, #1E90FF 100%);
+    }
+
+    .sun {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, #FFD700 30%, #FFA500 100%);
+        border-radius: 50%;
+        top: 30px;
+        right: 100px;
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+        animation: sun-pulse 5s infinite alternate;
+    }
+
+    .cloud {
+        position: absolute;
+        background: white;
+        border-radius: 50px;
+        opacity: 0.8;
+    }
+
+    .cloud-1 {
+        width: 100px;
+        height: 40px;
+        top: 50px;
+        left: 100px;
+        animation: cloud-move 30s linear infinite;
+    }
+
+    .cloud-2 {
+        width: 60px;
+        height: 30px;
+        top: 80px;
+        left: 250px;
+        animation: cloud-move 25s linear infinite;
+        animation-delay: 5s;
+    }
+
+    .wave {
+        position: absolute;
+        bottom: 80px;
+        width: 100%;
+        height: 20px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%231E90FF'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%231E90FF'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%231E90FF'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+        background-size: 1200px 20px;
+        animation: wave-animation 20s linear infinite;
+    }
+
+    .sea {
+        position: absolute;
+        height: 80px;
+        width: 100%;
+        bottom: 0;
+        background: linear-gradient(to bottom, #1E90FF, #00008B);
+    }
+
+    .firefly {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background-color: #ffff00;
+        border-radius: 50%;
+        animation: firefly 10s linear infinite;
+        opacity: 0;
+    }
+
+    .beach-btn {
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #00BFFF, #1E90FF);
+        border: none;
+        color: white;
+    }
+
+        .beach-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+    .btn-group .beach-btn {
+        margin: 0 2px;
+    }
+
+</style>
+
+<div class="container mt-5">
+    <div class="beach-container shadow">
+        <div class="beach-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0 fw-bold">
+                <i class="fas fa-list-ul me-2"></i>Danh sách danh mục
+            </h3>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Add" class="beach-btn">
+                    <i class="fas fa-plus-circle me-2"></i>Thêm mới
+                </a>
+            }
+        </div>
+
+        <div class="beach-body p-0">
+            <div class="table-responsive">
+                <table class="table beach-table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">Tên danh mục</th>
+                            <th class="px-4 py-3 text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="px-4 py-3 fw-bold text-secondary">
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td class="px-4 py-3 fw-bold">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <div class="btn-group">
+                                        <a asp-action="Show" asp-route-id="@item.Id" class="beach-btn">
+                                            <i class="fas fa-info-circle me-1"></i>Chi tiết
+                                        </a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-action="Update" asp-route-id="@item.Id" class="beach-btn">
+                                                <i class="fas fa-edit me-1"></i>Sửa
+                                            </a>
+                                        }
+                                        <a asp-action="View" asp-route-id="@item.Id" class="beach-btn">
+                                            <i class="fas fa-eye me-1"></i>Sản phẩm
+                                        </a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="beach-btn">
+                                                <i class="fas fa-trash-alt me-1"></i>Xóa
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="beach-scene">
+            <div class="sun"></div>
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="wave"></div>
+            <div class="sea"></div>
+        </div>
+
+        <div class="card-footer bg-light py-3 text-end">
+            <small class="text-muted">Tổng số danh mục: @Model.Count()</small>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add fireflies dynamically
+    function createFireflies() {
+        const scene = document.querySelector('.beach-scene');
+        for (let i = 0; i < 20; i++) {
+            const firefly = document.createElement('div');
+            firefly.classList.add('firefly');
+            firefly.style.left = `${Math.random() * 100}%`;
+            firefly.style.top = `${Math.random() * 100}%`;
+            firefly.style.animationDelay = `${Math.random() * 10}s`;
+            scene.appendChild(firefly);
+        }
+    }
+
+    // Call the function when the page loads
+    createFireflies();
+</script>

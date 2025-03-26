@@ -1,0 +1,100 @@
+﻿@model Web.Models.Product
+@{
+    ViewData["Title"] = "Cập Nhật Sản Phẩm";
+}
+<div class="container mt-4">
+    <h2 class="text-center text-primary">Cập Nhật Sản Phẩm</h2>
+    <div class="card shadow-sm p-4">
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            <input asp-for="Id" type="hidden" />
+            <div class="mb-3">
+                <label class="form-label fw-bold">Tên Sản Phẩm</label>
+                <input asp-for="Name" class="form-control" placeholder="Nhập tên sản phẩm..." />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mô Tả</label>
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Mô tả sản phẩm..."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Giá</label>
+                <input asp-for="Price" class="form-control" type="number" min="0" step="0.01" placeholder="Nhập giá sản phẩm..." />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Danh Mục</label>
+                <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+                    <option value="">-- Chọn Danh Mục --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Hình Ảnh Chính</label>
+                <input name="mainImageFile" type="file" class="form-control" />
+                <span class="text-danger"></span>
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="mt-3">
+                        <label>Ảnh Chính Hiện Tại:</label><br />
+                        <img src="@Model.ImageUrl" class="img-thumbnail" style="max-width: 200px;" />
+                    </div>
+                }
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Hình Ảnh Phụ</label>
+                <input name="additionalImageFiles" type="file" class="form-control" multiple />
+                <span class="text-danger"></span>
+                @if (Model.ImageUrls != null && Model.ImageUrls.Count > 0)
+                {
+                    <div class="mt-3">
+                        <label>Ảnh Phụ Hiện Tại:</label>
+                        <div class="row">
+                            @foreach (var image in Model.ImageUrls)
+                            {
+                                <div class="col-md-3 col-sm-4 col-6 mb-3">
+                                    <div class="position-relative">
+                                        <img src="@image.Url" class="img-thumbnail" style="height: 100px; object-fit: cover;" />
+                                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                                data-bs-toggle="modal" data-bs-target="#deleteImageModal_@image.Id">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal for image deletion confirmation -->
+                                    <div class="modal fade" id="deleteImageModal_@image.Id" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Xác nhận xóa</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Bạn có chắc chắn muốn xóa hình ảnh này?</p>
+                                                    <img src="@image.Url" class="img-thumbnail" style="max-height: 200px;" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                    <a asp-action="DeleteImage" asp-route-id="@image.Id" asp-route-productId="@Model.Id"
+                                                       class="btn btn-danger">Xóa</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Quay Lại
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Cập Nhật
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

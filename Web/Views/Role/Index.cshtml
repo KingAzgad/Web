@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "Quản lý quyền";
+}
+
+<h1>Quản lý quyền</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Tạo mới quyền</a>
+    <a asp-action="UserRoles" class="btn btn-secondary">Quản lý quyền người dùng</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên quyền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

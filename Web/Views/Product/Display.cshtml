@@ -1,0 +1,137 @@
+﻿@model Web.Models.Product
+@{
+    ViewData["Title"] = "Chi Tiết Sản Phẩm";
+}
+
+<style>
+    .product-detail-container {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        max-width: 1000px;
+        margin: 2rem auto;
+    }
+
+    .product-image-gallery {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .product-details {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .product-title {
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 0.5rem;
+    }
+
+    .product-price {
+        color: #28a745;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .product-meta {
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .product-description {
+        color: #495057;
+        line-height: 1.6;
+    }
+
+    .admin-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    
+
+    .product-detail-container {
+        animation: fadeIn 0.7s ease-out;
+    }
+</style>
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<div class="container">
+    <div class="product-detail-container">
+        <div class="row">
+            <!-- Product Image Gallery -->
+            <div class="col-md-6">
+                <div class="product-image-gallery">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" 
+                             class="img-fluid" 
+                             alt="@Model.Name">
+                    }
+                    else if (Model.ImageUrls != null && Model.ImageUrls.Count > 0)
+                    {
+                        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @for (int i = 0; i < Model.ImageUrls.Count; i++)
+                                {
+                                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                                        <img src="@Model.ImageUrls[i].Url" 
+                                             class="d-block w-100" 
+                                             alt="@Model.Name">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="/images/default-product.jpg" 
+                             class="img-fluid" 
+                             alt="Default Product Image">
+                    }
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-6">
+                <div class="product-details">
+                    <h2 class="product-title">@Model.Name</h2>
+                    
+                    <div class="product-price mb-3">
+                        @Model.Price.ToString("N0") VNĐ
+                    </div>
+
+                    <div class="product-meta">
+                        <p><strong>Mã sản phẩm:</strong> @Model.Id</p>
+                        <p><strong>Danh mục:</strong> @(Model.Category != null ? Model.Category.Name : "Không có")</p>
+                    </div>
+
+                    <div class="product-description">
+                        <h5>Mô tả sản phẩm</h5>
+                        <p>@Model.Description</p>
+                    </div>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="admin-actions">
+                            <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">
+                                <i class="fas fa-edit me-2"></i>Chỉnh sửa
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-list me-2"></i>Danh sách sản phẩm
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

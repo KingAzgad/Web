@@ -1,0 +1,400 @@
+﻿@model Web.Models.Category
+@{
+    ViewData["Title"] = "Danh sách danh mục";
+}
+
+<style>
+    body {
+        background-color: #f0e6d2; /* Màu cát nhạt cho nền trang */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .beach-container {
+        background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .beach-header {
+        background: linear-gradient(135deg, #00BFFF, #1E90FF);
+        color: white;
+        padding: 1.5rem;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .beach-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'%3E%3C/path%3E%3C/svg%3E") repeat;
+        opacity: 0.1;
+    }
+
+    .beach-header h3 {
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+    }
+
+    .beach-header h3 i {
+        margin-right: 10px;
+        font-size: 1.5rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .beach-body {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .beach-table {
+        background-color: transparent;
+    }
+
+    .beach-table thead {
+        background-color: rgba(30, 144, 255, 0.1);
+    }
+
+    .beach-table thead th {
+        color: #0066cc;
+        font-weight: 600;
+        border-bottom: 2px solid #7ec0ee;
+        padding: 1rem;
+    }
+
+    .beach-table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #d1e6f9;
+    }
+
+    .beach-table tbody tr:hover {
+        background-color: rgba(135, 206, 235, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .beach-table td {
+        padding: 0.75rem 1rem;
+    }
+
+    .beach-btn {
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .beach-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-beach-primary {
+        background: linear-gradient(135deg, #00BFFF, #1E90FF);
+        border: none;
+        color: white;
+    }
+
+    .btn-beach-info {
+        background: linear-gradient(135deg, #48d1cc, #20b2aa);
+        border: none;
+        color: white;
+    }
+
+    .btn-beach-warning {
+        background: linear-gradient(135deg, #ffa07a, #ff7f50);
+        border: none;
+        color: white;
+    }
+
+    .btn-beach-danger {
+        background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        border: none;
+        color: white;
+    }
+
+    .btn-group .beach-btn:not(:first-child):not(:last-child) {
+        border-radius: 0;
+    }
+
+    .btn-group .beach-btn:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .btn-group .beach-btn:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .beach-footer {
+        background-color: #f0e6d2;
+        padding: 1rem;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        position: relative;
+        overflow: hidden;
+        border-top: none;
+    }
+
+    .beach-scene {
+        height: 200px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #87CEEB 0%, #1E90FF 100%);
+    }
+
+    .sun {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, #FFD700 30%, #FFA500 100%);
+        border-radius: 50%;
+        top: 30px;
+        right: 100px;
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+        animation: sun-pulse 5s infinite alternate;
+    }
+
+    .cloud {
+        position: absolute;
+        background: white;
+        border-radius: 50px;
+        opacity: 0.8;
+    }
+
+    .cloud-1 {
+        width: 100px;
+        height: 40px;
+        top: 50px;
+        left: 100px;
+        animation: cloud-move 30s linear infinite;
+    }
+
+    .cloud-2 {
+        width: 60px;
+        height: 30px;
+        top: 80px;
+        left: 250px;
+        animation: cloud-move 25s linear infinite;
+        animation-delay: 5s;
+    }
+
+    .sea {
+        position: absolute;
+        height: 80px;
+        width: 100%;
+        bottom: 0;
+        background: linear-gradient(to bottom, #1E90FF, #00008B);
+    }
+
+    .wave {
+        position: absolute;
+        bottom: 80px;
+        width: 100%;
+        height: 20px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%231E90FF'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%231E90FF'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%231E90FF'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+        background-size: 1200px 20px;
+        animation: wave-animation 20s linear infinite;
+    }
+
+    .beach {
+        position: absolute;
+        height: 60px;
+        width: 100%;
+        bottom: 0;
+        background: linear-gradient(to bottom, #f0e6d2, #deb887);
+        border-top-left-radius: 70% 100%;
+        border-top-right-radius: 30% 100%;
+    }
+
+    .palm-tree {
+        position: absolute;
+        bottom: 58px;
+        left: 100px;
+        z-index: 10;
+    }
+
+    .palm-trunk {
+        width: 15px;
+        height: 60px;
+        background: linear-gradient(to right, #8B4513, #A0522D);
+        border-radius: 10px;
+        transform: rotate(5deg);
+        position: relative;
+    }
+
+    .palm-leaf {
+        position: absolute;
+        width: 60px;
+        height: 20px;
+        background: #32CD32;
+        border-radius: 50% 50% 0 50%;
+        transform-origin: left center;
+    }
+
+    .palm-leaf-1 {
+        top: -15px;
+        left: 10px;
+        transform: rotate(-30deg);
+    }
+
+    .palm-leaf-2 {
+        top: -5px;
+        left: 10px;
+        transform: rotate(0deg);
+    }
+
+    .palm-leaf-3 {
+        top: 5px;
+        left: 10px;
+        transform: rotate(30deg);
+    }
+
+    .star-fish {
+        position: absolute;
+        bottom: 15px;
+        right: 100px;
+        width: 30px;
+        height: 30px;
+        background: #FF6347;
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .shell {
+        position: absolute;
+        bottom: 10px;
+        left: 300px;
+        width: 20px;
+        height: 15px;
+        background: #FFF8DC;
+        border-radius: 50% 50% 0 0;
+        transform: rotate(45deg);
+    }
+
+    .seagull {
+        position: absolute;
+        top: 100px;
+        left: 300px;
+        font-size: 20px;
+        color: white;
+        animation: seagull-fly 40s linear infinite;
+    }
+
+    .sailboat {
+        position: absolute;
+        bottom: 90px;
+        right: 200px;
+        animation: sailboat-rock 4s ease-in-out infinite;
+    }
+
+    .boat-hull {
+        width: 50px;
+        height: 15px;
+        background: #A52A2A;
+        border-radius: 0 0 50% 50%;
+    }
+
+    .boat-sail {
+        position: absolute;
+        bottom: 15px;
+        left: 25px;
+        width: 0;
+        height: 0;
+        border-left: 25px solid transparent;
+        border-bottom: 40px solid white;
+    }
+
+    .badge-beach {
+        background-color: #1E90FF;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="beach-container shadow">
+        <div class="beach-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0 fw-bold">
+                <i class="fas fa-plus-circle me-2 fa-fw"></i>Thêm mới danh mục
+            </h3>
+        </div>
+
+        <div class="beach-body p-4">
+            <form asp-action="Add" method="post">
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="form-label">
+                        <i class="fas fa-tag me-2 text-primary"></i>Tên danh mục
+                    </label>
+                    <input asp-for="Name" class="form-control" placeholder="Nhập tên danh mục" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="beach-btn btn-beach-primary me-2">
+                        <i class="fas fa-save me-1"></i>Lưu
+                    </button>
+                    <a asp-action="Index" class="beach-btn btn-beach-danger">
+                        <i class="fas fa-times me-1"></i>Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Beach Scene -->
+        <div class="beach-scene">
+            <div class="sun"></div>
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="wave"></div>
+            <div class="sea"></div>
+            <div class="beach"></div>
+
+            <div class="palm-tree">
+                <div class="palm-trunk"></div>
+                <div class="palm-leaf palm-leaf-1"></div>
+                <div class="palm-leaf palm-leaf-2"></div>
+                <div class="palm-leaf palm-leaf-3"></div>
+            </div>
+
+            <div class="star-fish"></div>
+            <div class="shell"></div>
+            <div class="seagull">✈</div>
+
+            <div class="sailboat">
+                <div class="boat-hull"></div>
+                <div class="boat-sail"></div>
+            </div>
+        </div>
+
+        <div class="beach-footer d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-info-circle text-primary me-2"></i>
+                <span class="fw-bold">Vui lòng nhập thông tin danh mục</span>
+            </div>
+            <a asp-controller="Home" asp-action="Index" class="beach-btn btn-beach-primary">
+                <i class="fas fa-home me-1"></i>Trang chủ
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
