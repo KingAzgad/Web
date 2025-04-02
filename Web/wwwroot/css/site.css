@@ -560,4 +560,10 @@ body {
         transform: translateY(0);
     }
 }
+@media (max-width: 1200px) {
+    .fixed-ad {
+        display: none;
+    }
+}
+
 

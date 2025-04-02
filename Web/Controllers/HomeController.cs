@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Web.Models;
 using Web.Reponsitory;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Controllers
 {
@@ -11,15 +13,21 @@ namespace Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
         public HomeController(
             ILogger<HomeController> logger,
             ICategoryRepository categoryRepository,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context)
         {
             _logger = logger;
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
+            _userManager = userManager;
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -50,6 +58,32 @@ namespace Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in HomeController.Index");
+                return View("Error");
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> TransactionHistory()
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var orders = await _context.Orders
+                    .Where(o => o.UserId == user.Id)
+                    .Include(o => o.Items)
+                    .OrderByDescending(o => o.OrderDate)
+                    .ToListAsync();
+
+                return View(orders);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in HomeController.TransactionHistory");
                 return View("Error");
             }
         }

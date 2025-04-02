@@ -9,6 +9,6 @@ namespace Web.Models
         public string? Address { get; set; }
         public string? Age { get; set; }
         public Cart Cart { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>(); // Thêm danh sách đơn hàng
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

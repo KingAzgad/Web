@@ -1,0 +1,133 @@
+﻿@model Web.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết người dùng";
+}
+
+<h1>Chi tiết người dùng</h1>
+
+<div>
+    <h4>Thông tin người dùng</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Tên đăng nhập</dt>
+        <dd class="col-sm-10">@Model.UserName</dd>
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+        <dt class="col-sm-2">Họ tên</dt>
+        <dd class="col-sm-10">@Model.Fullname</dd>
+        <dt class="col-sm-2">Địa chỉ</dt>
+        <dd class="col-sm-10">@Model.Address</dd>
+        <dt class="col-sm-2">Tuổi</dt>
+        <dd class="col-sm-10">@Model.Age</dd>
+        <dt class="col-sm-2">Vai trò</dt>
+        <dd class="col-sm-10">@Model.Role</dd>
+    </dl>
+</div>
+
+<!-- Hiển thị thông tin giỏ hàng -->
+<div>
+    <h4>Giỏ hàng</h4>
+    <hr />
+    @if (Model.Cart != null && Model.Cart.Items != null && Model.Cart.Items.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Cart.Items)
+                {
+                    <tr>
+                        <td>@item.ProductId</td>
+                        <td>@item.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Người dùng chưa có sản phẩm trong giỏ hàng.</p>
+    }
+</div>
+
+<!-- Hiển thị danh sách đơn hàng -->
+<div>
+    <h4>Danh sách đơn hàng</h4>
+    <hr />
+    @if (Model.Orders != null && Model.Orders.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td>@order.Id</td>
+                        <td>@order.OrderDate</td>
+                        <td>@order.TotalAmount</td> <!-- Sửa TotalPrice thành TotalAmount -->
+                        <td>
+                            <button class="btn btn-info" onclick="showOrderDetails('@order.Id')">Xem chi tiết</button>
+                        </td>
+                    </tr>
+                    <tr id="order-details-@order.Id" style="display:none;">
+                        <td colspan="4">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in order.Items)
+                                    {
+                                        <tr>
+                                            <td>@item.ProductName</td> <!-- Sửa ProductId thành ProductName -->
+                                            <td>@item.Quantity</td>
+                                            <td>@item.ProductPrice</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Người dùng chưa có đơn hàng nào.</p>
+    }
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>
+
+@section Scripts {
+    <script>
+        function showOrderDetails(orderId) {
+            var detailsRow = document.getElementById('order-details-' + orderId);
+            if (detailsRow.style.display === 'none') {
+                detailsRow.style.display = 'table-row';
+            } else {
+                detailsRow.style.display = 'none';
+            }
+        }
+    </script>
+}

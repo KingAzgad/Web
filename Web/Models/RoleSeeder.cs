@@ -9,7 +9,7 @@ namespace Web.Models
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            // Tạo roles nếu chưa tồn tại
+
             string[] roleNames = { "Admin", "User" };
             foreach (var roleName in roleNames)
             {
@@ -20,7 +20,7 @@ namespace Web.Models
                 }
             }
 
-            // Tạo admin mặc định nếu chưa có
+
             var adminEmail = "admin@example.com";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)

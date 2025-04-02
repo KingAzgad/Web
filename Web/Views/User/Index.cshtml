@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Web.Models.UserViewModel>
+
+@{
+    ViewData["Title"] = "Quản lý người dùng";
+}
+
+<h1>Quản lý người dùng</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm người dùng mới</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên đăng nhập</th>
+            <th>Email</th>
+            <th>Họ tên</th>
+            <th>Địa chỉ</th>
+            <th>Tuổi</th>
+            <th>Vai trò</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.Fullname</td>
+                <td>@user.Address</td>
+                <td>@user.Age</td>
+                <td>@user.Role</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-info">Chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

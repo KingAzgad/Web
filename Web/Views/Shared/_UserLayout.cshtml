@@ -8,8 +8,44 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        .fixed-ad {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 500px;
+            z-index: 1000;
+        }
+
+        .fixed-ad-left {
+            left: 10px;
+        }
+
+        .fixed-ad-right {
+            right: 10px;
+        }
+
+        .fixed-ad img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+
+    </style>
 </head>
 <body>
+
+    <div class="fixed-ad fixed-ad-left">
+        <img src="~/images/banner1.png" alt="Quảng cáo bên trái">
+    </div>
+
+    <div class="fixed-ad fixed-ad-right">
+        <img src="~/images/banner1.png" alt="Quảng cáo bên phải">
+    </div>
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -20,12 +56,12 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <!-- Luôn hiển thị mục Home -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-
-                        <!-- Hiển thị các mục khác chỉ cho role Admin -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="TransactionHistory">Lịch sử giao dịch</a>
+                        </li>
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -40,9 +76,11 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Quản lý quyền</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Quản lý người dùng</a>
+                            </li>
                         }
                     </ul>
-                    <!-- Thanh tìm kiếm -->
                     <form class="d-flex" method="get" asp-controller="Home" asp-action="Index">
                         <input class="form-control me-2" type="search" name="searchTerm" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
                         <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
@@ -61,7 +99,6 @@
     <footer class="site-footer">
         <div class="container">
             <div class="row">
-                <!-- Contact Information -->
                 <div class="col-md-4 mb-4">
                     <h5>Liên hệ</h5>
                     <ul>
@@ -71,7 +108,6 @@
                     </ul>
                 </div>
 
-                <!-- Quick Links -->
                 <div class="col-md-4 mb-4">
                     <h5>Liên kết nhanh</h5>
                     <ul>
@@ -82,7 +118,6 @@
                     </ul>
                 </div>
 
-                <!-- Social Media -->
                 <div class="col-md-4 mb-4">
                     <h5>Theo dõi chúng tôi</h5>
                     <div class="social-icons">
@@ -94,7 +129,6 @@
                 </div>
             </div>
 
-            <!-- Footer Bottom -->
             <div class="footer-bottom">
                 <p>© @DateTime.Now.Year - Web. All Rights Reserved.</p>
             </div>
